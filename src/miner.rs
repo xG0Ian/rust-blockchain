@@ -132,7 +132,7 @@ impl Miner {
         transactions: TransactionVec,
         nonce: u64,
     ) -> Block {
-        let index = (last_block.index + 1) as u64;
+        let index = last_block.index + 1;
         let previous_hash = last_block.hash;
 
         // hash of the new block is automatically calculated on creation

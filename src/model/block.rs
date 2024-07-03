@@ -1,6 +1,5 @@
 use chrono::prelude::*;
-use crypto::digest::Digest;
-use crypto::sha2::Sha256;
+use sha2::{Sha256, Digest};
 use ethereum_types::U256;
 use serde::{Deserialize, Serialize};
 
@@ -53,9 +52,9 @@ impl Block {
         let mut byte_hash = <[u8; 32]>::default();
         let mut hasher = Sha256::new();
 
-        hasher.input_str(&serialized);
-        hasher.result(&mut byte_hash);
+        hasher.update(&serialized);
+        byte_hash.copy_from_slice(&hasher.finalize());
 
-        U256::from(byte_hash)
+        U256::from(&byte_hash)
     }
 }
